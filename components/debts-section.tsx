@@ -39,6 +39,14 @@ export function DebtsSection({ userId, debts: initialDebts }: Props) {
     return debt.game?.description ?? debt.game?.short_code ?? "a game"
   }
 
+  function dateLabel(dateStr: string) {
+    return new Date(dateStr).toLocaleDateString(undefined, {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    })
+  }
+
   return (
     <div className="space-y-6">
       {/* Incoming debts — money owed to the user */}
@@ -58,6 +66,8 @@ export function DebtsSection({ userId, debts: initialDebts }: Props) {
                   <span className="font-medium">{formatDollar(debt.amount)}</span>{" "}
                   from{" "}
                   <span className="text-muted-foreground">{gameLabel(debt)}</span>
+                  {" · "}
+                  <span className="text-muted-foreground">{dateLabel(debt.created_at)}</span>
                 </span>
                 <Button
                   variant="ghost"
@@ -91,6 +101,8 @@ export function DebtsSection({ userId, debts: initialDebts }: Props) {
                 </span>{" "}
                 from{" "}
                 <span className="text-muted-foreground">{gameLabel(debt)}</span>
+                {" · "}
+                <span className="text-muted-foreground">{dateLabel(debt.created_at)}</span>
               </li>
             ))}
           </ul>
