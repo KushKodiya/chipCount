@@ -37,7 +37,7 @@ create policy "Creditor can settle debts"
 
 -- insert_game_debts: accepts pre-computed payout data and inserts debt rows.
 -- Security definer so it can bypass the INSERT RLS restriction.
--- Idempotent: silently returns if debts already exist for this game.
+-- Replaces existing debts on every game close so reclosing recalculates correctly.
 create or replace function public.insert_game_debts(
   p_game_id uuid,
   p_debts   jsonb
@@ -57,10 +57,8 @@ begin
     raise exception 'Not the host of this game';
   end if;
 
-  -- Idempotency guard: skip if debts already exist for this game
-  if exists (select 1 from public.debts where game_id = p_game_id limit 1) then
-    return;
-  end if;
+  -- Delete only pending debts so reclosing recalculates them; settled debts are preserved
+  delete from public.debts where game_id = p_game_id and status = 'pending';
 
   -- Insert each debt record
   for debt_item in select * from jsonb_array_elements(p_debts)
