@@ -1,9 +1,9 @@
-import { closeGame } from "@/lib/actions"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { DashboardActions } from "@/components/dashboard-actions"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
+import { DeleteTableButton } from "@/components/delete-table-button"
 import Link from "next/link"
 
 // Add short cache for faster back/forward navigation
@@ -94,11 +94,7 @@ export default async function DashboardPage() {
                       <Link href={`/game/${game.id}`} prefetch={true}>Open</Link>
                     </Button>
                     {isHost && (
-                      <form action={closeGame.bind(null, game.id)}>
-                        <Button variant="destructive" size="sm" type="submit">
-                          Delete Table
-                        </Button>
-                      </form>
+                      <DeleteTableButton gameId={game.id} />
                     )}
                   </div>
                 </div>
