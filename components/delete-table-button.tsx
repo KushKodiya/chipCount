@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { closeGame } from "@/lib/actions"
+import { deleteGame } from "@/lib/actions"
 import { AlertTriangle } from "lucide-react"
 
 export function DeleteTableButton({ gameId }: { gameId: string }) {
@@ -50,7 +50,7 @@ export function DeleteTableButton({ gameId }: { gameId: string }) {
                 disabled={deleting}
                 onClick={async () => {
                   setDeleting(true)
-                  await closeGame(gameId)
+                  await deleteGame(gameId)
                 }}
               >
                 {deleting ? "Deleting..." : "Delete"}
