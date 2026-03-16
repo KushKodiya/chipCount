@@ -560,10 +560,14 @@ export function GameSession({
           <div>
             <CardTitle>{game.description || "Game"}</CardTitle>
             <CardDescription>
-              Game ID: <span className="font-mono">{game.short_code}</span> — share so others can join
-              <br />
-              Invite link:{" "}
-              <span className="font-mono break-all">{inviteUrl}</span>
+              Game ID: <span className="font-mono">{game.short_code}</span>{!isClosed && <> — share so others can join</>}
+              {!isClosed && (
+                <>
+                  <br />
+                  Invite link:{" "}
+                  <span className="font-mono break-all">{inviteUrl}</span>
+                </>
+              )}
             </CardDescription>
           </div>
           <div className="flex items-center gap-2">
@@ -584,10 +588,12 @@ export function GameSession({
                 {isClosed ? "Reopen Game" : "End Game"}
               </Button>
             )}
-            <Button variant="outline" size="sm" onClick={copyGameLink}>
-              <Copy className="mr-1 h-4 w-4" />
-              Copy link
-            </Button>
+            {!isClosed && (
+              <Button variant="outline" size="sm" onClick={copyGameLink}>
+                <Copy className="mr-1 h-4 w-4" />
+                Copy link
+              </Button>
+            )}
           </div>
         </CardHeader>
       </Card>
