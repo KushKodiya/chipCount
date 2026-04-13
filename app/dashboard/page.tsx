@@ -1,7 +1,7 @@
-import { closeGame } from "@/lib/actions"
 import { createClient } from "@/lib/supabase/server"
 import { redirect } from "next/navigation"
 import { DashboardActions } from "@/components/dashboard-actions"
+import { HostEndTableButton } from "@/components/host-end-table-button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
@@ -94,11 +94,10 @@ export default async function DashboardPage() {
                       <Link href={`/game/${game.id}`} prefetch={true}>Open</Link>
                     </Button>
                     {isHost && (
-                      <form action={closeGame.bind(null, game.id)}>
-                        <Button variant="destructive" size="sm" type="submit">
-                          End Game
-                        </Button>
-                      </form>
+                      <HostEndTableButton
+                        gameId={game.id}
+                        tableName={game.description ?? ""}
+                      />
                     )}
                   </div>
                 </div>
